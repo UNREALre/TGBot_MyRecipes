@@ -32,6 +32,24 @@ nothing_found_state_occur = False  # возврат к списку катего
 rcp_keyword = ""  # возможный ключевик для поиска по рецептам
 
 
+def reset_globals():
+    # При старте сбрасывает все глобальные переменные и состояния диалога прошлого
+    global my_recipe, rcp_user, from_confirm, searchable_category, selected_recipe, nothing_found_state_occur, rcp_keyword
+
+    my_recipe = Recipe.Recipe()
+    rcp_user = User.User()
+
+    from_confirm = False
+
+    searchable_category = 0
+
+    selected_recipe = 0
+
+    nothing_found_state_occur = False
+
+    rcp_keyword = ""
+
+
 def response_generator(rcp_state, update):
     global nothing_found_state_occur
 
@@ -42,6 +60,8 @@ def response_generator(rcp_state, update):
 
     elif rcp_state == 'start':
         # Состояние начала диалога
+        reset_globals()
+
         user_text = ''
         if rcp_user.id:
             user_text = '%s, добро пожаловать! У Вас %s добавленных рецептов. ' \

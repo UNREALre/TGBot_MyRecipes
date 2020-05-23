@@ -1,0 +1,8 @@
+/.idea/
+/venv/
+/recipe.log
+
+# exclude everything
+logs/*
+# exception to the rule
+!logs/.gitkeep

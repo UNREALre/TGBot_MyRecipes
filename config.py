@@ -1,0 +1,26 @@
+import os
+import confuse
+import urllib.parse
+import pymongo
+from logger import get_logger
+
+project_root = os.path.dirname(os.path.abspath(__file__))
+os.environ["MYRECIPEDIR"] = project_root
+appConfig = confuse.Configuration('MyRecipe')
+
+db_conn = dict()
+db_conn['username'] = urllib.parse.quote_plus(str(appConfig['db']['user']))
+db_conn['password'] = urllib.parse.quote_plus(str(appConfig['db']['pass']))
+db_conn['host'] = str(appConfig['db']['host'])
+db_conn['port'] = str(appConfig['db']['port'])
+db_conn['name'] = str(appConfig['db']['name'])
+
+client = pymongo.MongoClient(
+    'mongodb://%s:%s@%s:%s/%s?authMechanism=SCRAM-SHA-1'
+    %
+    (db_conn['username'], db_conn['password'], db_conn['host'], db_conn['port'], db_conn['name'])
+)
+
+db = client[str(appConfig['db']['name'])]
+
+rcp_logger = get_logger(__name__)

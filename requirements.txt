@@ -1,0 +1,4 @@
+confuse
+python-telegram-bot
+pymongo
+telegram

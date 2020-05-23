@@ -34,10 +34,9 @@ rcp_keyword = ""  # возможный ключевик для поиска по
 
 def reset_globals():
     # При старте сбрасывает все глобальные переменные и состояния диалога прошлого
-    global my_recipe, rcp_user, from_confirm, searchable_category, selected_recipe, nothing_found_state_occur, rcp_keyword
+    global my_recipe, from_confirm, searchable_category, selected_recipe, nothing_found_state_occur, rcp_keyword
 
     my_recipe = Recipe.Recipe()
-    rcp_user = User.User()
 
     from_confirm = False
 

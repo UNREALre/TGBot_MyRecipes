@@ -40,8 +40,8 @@ def test_format_recipe_for_output():
 
 
 def test_find_recipe():
-    print("Поиск рецепта по ключевому слову макароны с пользователем 11760649")
-    print(find_recipe('макароны', 11760649))
+    print("Поиск рецепта по ключевому слову десерты с пользователем 11760649")
+    print(find_recipe('десерт', 11760649))
     print('\n')
 
 

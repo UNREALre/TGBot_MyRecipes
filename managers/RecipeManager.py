@@ -17,6 +17,17 @@ def find_recipe(keyword, user_id):
     """
     recipes = []
     rgx = re.compile(keyword, re.IGNORECASE)
+
+    good_tags = []  # в головном поиске сделаем выборку всех рецептов из данных категорий
+    tag_cursor = tags_collection.find(
+        {
+            'name': rgx,
+        },
+        {'score': {'$meta': "textScore"}},
+    )
+    for tag in tag_cursor:
+        good_tags.append(tag['tag_id'])
+
     """
     cursor = recipe_collection.find(
         {
@@ -50,15 +61,18 @@ def find_recipe(keyword, user_id):
                 '$or': [
                     {'title': rgx},
                     {'ingredients': rgx},
-                    {'description': rgx}
+                    {'description': rgx},
+                    {'category_id': {'$in': good_tags}}
                 ]
             }]
-            #'$text': {'$search': keyword}
+            # '$text': {'$search': keyword}
         },
         {'score': {'$meta': "textScore"}},
     ).sort([('likes', 1)])
+    used = []
     for recipe in cursor:
         recipes.append(recipe)
+        used.append(str(recipe['_id']))
 
     return recipes
 

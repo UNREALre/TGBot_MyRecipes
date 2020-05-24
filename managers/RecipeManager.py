@@ -69,10 +69,8 @@ def find_recipe(keyword, user_id):
         },
         {'score': {'$meta': "textScore"}},
     ).sort([('likes', 1)])
-    used = []
     for recipe in cursor:
         recipes.append(recipe)
-        used.append(str(recipe['_id']))
 
     return recipes
 

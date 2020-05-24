@@ -133,9 +133,9 @@ def format_recipe_for_output(recipe):
     """
     recipe_txt = \
         '<b>Наименование рецепта:</b>\n' + recipe['title'] + '\n\n' \
-        'Ингредиенты:\n' + recipe['ingredients'] + '\n\n' \
-        'Описание:\n' + recipe['description'] + '\n\n' \
-        'Кол-во лайков:\n' + str(recipe['likes']) + ' шт.\n\n'
+        '<b>Ингредиенты:</b>\n' + recipe['ingredients'] + '\n\n' \
+        '<b>Описание:</b>\n' + recipe['description'] + '\n\n' \
+        '<b>Кол-во лайков:</b>\n' + str(recipe['likes']) + ' шт.\n\n'
 
     return recipe_txt
 

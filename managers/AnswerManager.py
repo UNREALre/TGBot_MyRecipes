@@ -106,13 +106,14 @@ def response_generator(rcp_state, update):
         # Состояние ожидания подтверждения введенных данных, либо изменения чего-либо
         recipe_category = get_category_by_id(my_recipe.tag_id)
         update.message.reply_text('Посмотрите получившийся рецепт. Все верно?\n\n'
-                                  'Наименование рецепта:\n' + my_recipe.title + '\n\n'
-                                  'Ингредиенты:\n' + my_recipe.ingredients + '\n\n'
-                                  'Описание:\n' + my_recipe.description + '\n\n'
-                                  'Категория:\n' + recipe_category['name'] + '\n\n'
-                                  'Рарзрешить поиск рецепта другим:\n' + ('Нет' if not my_recipe.is_searchable else 'Да'),
+                                  '<b>Наименование рецепта:</b>\n' + my_recipe.title + '\n\n'
+                                  '<b>Ингредиенты:</b>\n' + my_recipe.ingredients + '\n\n'
+                                  '<b>Описание:</b>\n' + my_recipe.description + '\n\n'
+                                  '<b>Категория:</b>\n' + recipe_category['name'] + '\n\n'
+                                  '<b>Рарзрешить поиск рецепта другим:</b>\n' + ('Нет' if not my_recipe.is_searchable else 'Да'),
                                   reply_markup=ReplyKeyboardMarkup(final_choice_keyboard,
-                                                                   one_time_keyboard=True))
+                                                                   one_time_keyboard=True,
+                                                                   parse_mode=ParseMode.HTML))
         return str(appConfig['chat']['state']['NEW_RECIPE_CONFIRMATION'])
 
     elif rcp_state == 'recipe_created':
@@ -202,7 +203,7 @@ def rcp_help(update, context):
         'По вашим ранее добавленным рецептам существует удобная навигация по категориям, просто '
         'выберите нужную категорию, а затем выберите рецепт, который Вас интересует.\n\n'
         'Если у Вас будут какие-то пожелания и замечания - пишите моему создателю @UNREALre',
-        reply_markup=ReplyKeyboardRemove()
+        reply_markup=ReplyKeyboardRemove(), parse_mode=ParseMode.HTML
     )
 
 

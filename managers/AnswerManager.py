@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, ParseMode
 from telegram.ext import ConversationHandler
 from config import rcp_logger, appConfig
 from classes import Recipe
@@ -106,14 +106,13 @@ def response_generator(rcp_state, update):
         # Состояние ожидания подтверждения введенных данных, либо изменения чего-либо
         recipe_category = get_category_by_id(my_recipe.tag_id)
         update.message.reply_text('Посмотрите получившийся рецепт. Все верно?\n\n'
-                                  '<b>Наименование рецепта:</b>\n' + my_recipe.title + '\n\n'
+                                  'Наименование рецепта:\n' + my_recipe.title + '\n\n'
                                   'Ингредиенты:\n' + my_recipe.ingredients + '\n\n'
                                   'Описание:\n' + my_recipe.description + '\n\n'
                                   'Категория:\n' + recipe_category['name'] + '\n\n'
                                   'Рарзрешить поиск рецепта другим:\n' + ('Нет' if not my_recipe.is_searchable else 'Да'),
                                   reply_markup=ReplyKeyboardMarkup(final_choice_keyboard,
-                                                                   one_time_keyboard=True,
-                                                                   parse_mode='HTML'))
+                                                                   one_time_keyboard=True))
         return str(appConfig['chat']['state']['NEW_RECIPE_CONFIRMATION'])
 
     elif rcp_state == 'recipe_created':
@@ -162,11 +161,11 @@ def response_generator(rcp_state, update):
 
         query = update.callback_query
         if query.from_user.id == recipe['user_id']:
-            query.edit_message_text(recipe_formatted + 'Для возобновления работы Рецептуария введите /start')
+            query.edit_message_text(recipe_formatted + 'Для возобновления работы Рецептуария введите /start', parse_mode=ParseMode.HTML)
             return ConversationHandler.END
         else:
             like_kb = generate_like_keyboard(query.from_user.id, selected_recipe)
-            query.edit_message_text(recipe_formatted + 'Понравился рецепт? Поставьте ему лайк!', reply_markup=InlineKeyboardMarkup(like_kb))
+            query.edit_message_text(recipe_formatted + 'Понравился рецепт? Поставьте ему лайк!', reply_markup=InlineKeyboardMarkup(like_kb), parse_mode=ParseMode.HTML)
             return str(appConfig['chat']['state']['LIKE_RECIPE'])
 
     elif rcp_state == 'search_by_keyword':

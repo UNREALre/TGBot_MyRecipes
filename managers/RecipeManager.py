@@ -132,7 +132,7 @@ def format_recipe_for_output(recipe):
     Возвращает форматированную строку для вывода пользователю
     """
     recipe_txt = \
-        'Наименование рецепта:\n' + recipe['title'] + '\n\n' \
+        '<b>Наименование рецепта:</b>\n' + recipe['title'] + '\n\n' \
         'Ингредиенты:\n' + recipe['ingredients'] + '\n\n' \
         'Описание:\n' + recipe['description'] + '\n\n' \
         'Кол-во лайков:\n' + str(recipe['likes']) + ' шт.\n\n'

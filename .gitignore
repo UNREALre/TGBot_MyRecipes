@@ -16,3 +16,4 @@ data/*
 voice_msgs/*
 # exception to the rule
 !voice_msgs/.gitkeep
+/config.yaml

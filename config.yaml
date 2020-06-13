@@ -7,13 +7,13 @@ app:
 
 db:
   name: recipes
-  user: user
-  pass: pass
+  user: bot_recipe_usr
+  pass: nM21!qnPk9tG%21
   host: localhost
   port: 27017
 
 tg:
-  key: 'key'
+  key: '1284815731:AAG_e0bCH_V2S_-bK5aW3nW1dNAwLMhTSGo'
 
 chat:
   state:

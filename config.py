@@ -3,6 +3,7 @@ import confuse
 import urllib.parse
 import pymongo
 from logger import get_logger
+from managers.VoiceRecognitionManager import build_models
 
 project_root = os.path.dirname(os.path.abspath(__file__))
 os.environ["MYRECIPEDIR"] = project_root
@@ -24,3 +25,8 @@ client = pymongo.MongoClient(
 db = client[str(appConfig['db']['name'])]
 
 rcp_logger = get_logger(__name__)
+
+input_folder = 'data'
+# Создаем HMM-модель для каждого слова из входной папки
+speech_models = build_models(input_folder)
+# speech_models = []

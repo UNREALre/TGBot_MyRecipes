@@ -2,3 +2,10 @@ confuse
 python-telegram-bot
 pymongo
 telegram
+hmmlearn
+python_speech_features
+numpy
+requests
+scipy
+pysoundfile
+pydub

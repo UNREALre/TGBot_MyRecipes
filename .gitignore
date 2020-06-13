@@ -6,3 +6,13 @@
 logs/*
 # exception to the rule
 !logs/.gitkeep
+
+# exclude everything
+data/*
+# exception to the rule
+!data/.gitkeep
+
+# exclude everything
+voice_msgs/*
+# exception to the rule
+!voice_msgs/.gitkeep

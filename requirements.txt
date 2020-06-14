@@ -9,4 +9,3 @@ requests
 scipy
 pysoundfile
 pydub
-urllib3

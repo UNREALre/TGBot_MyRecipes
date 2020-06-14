@@ -31,5 +31,5 @@ rcp_logger = get_logger(__name__)
 
 input_folder = 'data'
 # Создаем HMM-модель для каждого слова из входной папки
-# speech_models = build_models(input_folder)
-speech_models = []
+speech_models = build_models(input_folder)
+# speech_models = []

@@ -9,8 +9,6 @@ from config import rcp_logger, appConfig, speech_models
 from managers.RecipeManager import (get_category_by_name, like_recipe)
 from managers.VoiceRecognitionManager import fire_recognition
 
-from_confirm = False
-
 
 def rcp_help(update, context):
     update.message.reply_text(
@@ -63,7 +61,7 @@ def new_recipe_name(update, context):
 
     rcp_logger.info('Пользователь %s ввёл имя рецепта %s' % (user.username, update.message.text))
 
-    return RG.response_generator('confirm_recipe', update) if from_confirm else RG.response_generator('recipe_components', update)
+    return RG.response_generator('confirm_recipe', update) if RG.from_confirm else RG.response_generator('recipe_components', update)
 
 
 def new_components(update, context):
@@ -72,7 +70,7 @@ def new_components(update, context):
 
     rcp_logger.info('Пользователь %s ввёл список ингредиентов \"%s\"' % (user.username, update.message.text))
 
-    return RG.response_generator('confirm_recipe', update) if from_confirm else RG.response_generator('recipe_description',
+    return RG.response_generator('confirm_recipe', update) if RG.from_confirm else RG.response_generator('recipe_description',
                                                                                                 update)
 
 
@@ -82,7 +80,7 @@ def new_descriptions(update, context):
 
     rcp_logger.info('Пользователь %s ввёл сам рецепт \"%s\"' % (user.username, update.message.text))
 
-    return RG.response_generator('confirm_recipe', update) if from_confirm else RG.response_generator('recipe_tag',
+    return RG.response_generator('confirm_recipe', update) if RG.from_confirm else RG.response_generator('recipe_tag',
                                                                                                 update)
 
 
@@ -92,7 +90,7 @@ def new_tags(update, context):
 
     rcp_logger.info('Пользователь %s выбрал категорию \"%s\"' % (user.username, update.message.text))
 
-    return RG.response_generator('confirm_recipe', update) if from_confirm else RG.response_generator('search_status',
+    return RG.response_generator('confirm_recipe', update) if RG.from_confirm else RG.response_generator('search_status',
                                                                                                 update)
 
 
@@ -106,8 +104,7 @@ def searchable_status(update, context):
 
 
 def confirm_choice(update, context):
-    global from_confirm
-    from_confirm = True
+    RG.from_confirm = True
 
     user = update.message.from_user
     rcp_logger.info('Пользователь %s выбрал %s' % (user.username, update.message.text))
@@ -128,8 +125,7 @@ def confirm_choice(update, context):
 
 
 def search_recipe(update, context):
-    global rcp_keyword
-    rcp_keyword = update.message.text
+    RG.rcp_keyword = update.message.text
 
     user = update.message.from_user
     rcp_logger.info('Пользователь %s пытается найти рецепт по запросу %s' % (user.username, update.message.text))
@@ -138,8 +134,7 @@ def search_recipe(update, context):
 
 
 def browse_my_rcp_category(update, context):
-    global searchable_category
-    searchable_category = update.message.text
+    RG.searchable_category = update.message.text
     user = update.message.from_user
     rcp_logger.info('Пользователь %s выбирает категорию своих рецептов %s' % (user.username, update.message.text))
 
@@ -147,14 +142,13 @@ def browse_my_rcp_category(update, context):
 
 
 def choose_recipe(update, context):
-    global selected_recipe
     user = update.callback_query.from_user
     query = update.callback_query
     query.answer()
 
-    selected_recipe = format(query.data)
+    RG.selected_recipe = format(query.data)
 
-    rcp_logger.info('Пользователь %s выбирает рецепт с ID = %s' % (user.username, selected_recipe))
+    rcp_logger.info('Пользователь %s выбирает рецепт с ID = %s' % (user.username, RG.selected_recipe))
 
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Спасибо, что воспользовались Рецептуарием!",
@@ -168,14 +162,13 @@ def return_to_categories(update, context):
 
 
 def choose_search_result(update, context):
-    global selected_recipe
     user = update.callback_query.from_user
     query = update.callback_query
     query.answer()
 
-    selected_recipe = format(query.data)
+    RG.selected_recipe = format(query.data)
 
-    rcp_logger.info('Пользователь %s выбирает из поиска рецепт с ID = %s' % (user.username, selected_recipe))
+    rcp_logger.info('Пользователь %s выбирает из поиска рецепт с ID = %s' % (user.username, RG.selected_recipe))
 
     context.bot.send_message(chat_id=update.effective_chat.id, text="Спасибо, что воспользовались Рецептуарием!", reply_markup=ReplyKeyboardRemove())
 
@@ -187,7 +180,6 @@ def return_to_search(update, context):
 
 
 def store_user_like(update, context):
-    global selected_recipe
     user = update.callback_query.from_user
     query = update.callback_query
     query.answer()
